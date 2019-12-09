@@ -28,7 +28,7 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void userEvent(){
-        Intent intent = new Intent(MenuActivity.this, EventActivity.class);
+       Intent intent = new Intent(MenuActivity.this, EventActivity.class);
 
         startActivity(intent);
     }

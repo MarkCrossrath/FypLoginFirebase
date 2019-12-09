@@ -35,7 +35,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.signup);
-
+        // Initialize Firebase Auth
+        mAuth = FirebaseAuth.getInstance();
         editTextEmail = findViewById(R.id.editTextEmail);
         editTextPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressbar);
@@ -43,8 +44,8 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
        findViewById(R.id.buttonSignUp).setOnClickListener(this);
        findViewById(R.id.textViewLogin).setOnClickListener(this);
-        // Initialize Firebase Auth
-        mAuth = FirebaseAuth.getInstance();
+
+
 
     }
 
@@ -59,85 +60,74 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
 
     }
 
-    private void registerUser(){
+    private void registerUser() {
         final String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
         final String sportPreference = editTextSportPreference.getText().toString().trim();
 
-        if (email.isEmpty()){
+        if (email.isEmpty()) {
             editTextEmail.setError("Email is Required ");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(!Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+        if (!Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
             editTextEmail.setError("Please enter a valid email");
             editTextEmail.requestFocus();
             return;
         }
 
-        if(password.isEmpty()){
+        if (password.isEmpty()) {
             editTextPassword.setError("Password is Required");
-            editTextPassword .requestFocus();
+            editTextPassword.requestFocus();
             return;
         }
 
-        if(password.length()<6){
+        if (password.length() < 6) {
             editTextPassword.setError("Password must be greater than 6 characters");
             editTextPassword.requestFocus();
             return;
         }
 
-        if(sportPreference.isEmpty()){
+        if (sportPreference.isEmpty()) {
             editTextSportPreference.setError("please enter your sport of preference");
             editTextSportPreference.requestFocus();
             return;
         }
-
         progressBar.setVisibility(View.VISIBLE);
-
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-            @Override
-            public void onComplete(@NonNull Task<AuthResult> task) {
-               progressBar.setVisibility(View.GONE);
-
-                if(task.isSuccessful()){
-                    User user = new User(
-                            email,
-                            sportPreference
-                    );
-                    FirebaseDatabase.getInstance().getReference("Users")
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        progressBar.setVisibility(View.GONE);
+                        if(task.isSuccessful()){
+                            //stored fields
+                            User user = new User(
+                                    email,sportPreference
+                            );
+                            FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
                             .setValue(user).addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getApplicationContext(), "user registered",Toast.LENGTH_LONG).show();
-                            }
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if(task.isSuccessful()){
+                                        Toast.makeText(getApplicationContext()," User registered Successfully",Toast.LENGTH_LONG).show();
+
+                                    }
+                                }
+                            });
 
                         }
-                    })
-                    ;
-                    Intent intent = new Intent(SignUpActivity.this, MenuActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
-                }
-                else{
-                        // check to see if user is registered
-                    if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                        Toast.makeText(getApplicationContext(),"you are already registered",Toast.LENGTH_LONG).show();
-                    }
-                    //displays error message if another error has occurred
-                    else {
-                        Toast.makeText(getApplicationContext(), task.getException().getMessage(),Toast.LENGTH_LONG).show();
-                    }
-                }
-            }
-        });
+                        else {
+                            Toast.makeText(SignUpActivity.this,task.getException().getMessage(),Toast.LENGTH_LONG).show();
+                        }
 
+                    }
+                });
 
     }
+
+
 
 
     @Override

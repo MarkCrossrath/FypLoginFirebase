@@ -2,30 +2,30 @@ package com.example.login;
 
 public class Event {
 
-   private String name;
-   private String image;
-   private String description;
-   private String location;
-   private String time;
+    private String title;
+    private String image;
+    private String description;
+    private String location;
+    private String date;
 
     public Event() {
 
     }
 
-    public Event(String name, String image, String description, String location, String time) {
-        this.name = name;
+    public Event(String title , String image , String description , String location , String date) {
+        this.title = title;
         this.image = image;
-       this.description = description;
-       this.location = location;
-        this.time = time;
+        this.description = description;
+        this.location = location;
+        this.date = date;
     }
 
-    public String getName() {
-        return name;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String name) {
-        name = name;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
     public String getImage() {
@@ -52,11 +52,11 @@ public class Event {
         this.location = location;
     }
 
-    public String getTime() {
-        return time;
+    public String getDate() {
+        return date;
     }
 
-    public void setTime(String time) {
-        this.time = time;
+    public void setDate(String date) {
+        this.date = date;
     }
 }

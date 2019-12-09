@@ -3,6 +3,10 @@ package com.example.login;
 public class User {
     public String email, preference;
 
+    public User(){
+
+    }
+
 
     public User(String email, String preference) {
         this.email = email;

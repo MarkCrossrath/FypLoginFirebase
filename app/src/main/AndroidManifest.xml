@@ -9,15 +9,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity
-            android:name=".EventWebView"
-            android:label="@string/title_activity_event_web_view"
-            android:parentActivityName=".MenuActivity"
-            android:theme="@style/AppTheme.NoActionBar">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.example.login.MenuActivity" />
-        </activity>
+        <activity android:name=".EventActivity"></activity>
         <activity android:name=".MenuActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
