@@ -41,12 +41,15 @@
             android:hint="Password"
             android:inputType="textPassword" />
 
+
+
         <Button
             android:id="@+id/buttonSignIn"
             android:layout_width="match_parent"
             android:background="@drawable/rounded_button_transparent"
             android:layout_height="wrap_content"
             android:text="Sign In" />
+
 
 
         <TextView
@@ -57,6 +60,10 @@
             android:text="Don't have account? Sign Up"
             android:textAlignment="center"
             android:textColor="@color/colorAccent" />
+
+
+
+
     </LinearLayout>
 
 
@@ -68,6 +75,17 @@
         android:layout_centerVertical="true"
         android:visibility="gone" />
 
+
+    <TextView
+        android:id="@+id/adminLogin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_marginBottom="24dp"
+        android:padding="15dp"
+        android:text="Admin login "
+        android:textAlignment="center"
+        android:textColor="@color/colorAccent" />
 
 
 </RelativeLayout>

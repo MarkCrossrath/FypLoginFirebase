@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Patterns;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
@@ -24,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     EditText editTextPassword;
     ProgressBar progressBar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -34,8 +36,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         editTextPassword = findViewById(R.id.editTextPassword);
         progressBar = findViewById(R.id.progressbar);
 
+
         findViewById(R.id.textViewSignup).setOnClickListener(this);
         findViewById(R.id.buttonSignIn).setOnClickListener(this);
+        findViewById(R.id.adminLogin).setOnClickListener(this);
+
 
     }
 
@@ -43,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         String email = editTextEmail.getText().toString().trim();
         String password = editTextPassword.getText().toString().trim();
+
 
         if (email.isEmpty()){
             editTextEmail.setError("Email is Required ");
@@ -68,6 +74,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             return;
         }
 
+
+
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
@@ -80,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
                     startActivity(intent);
                 }
+
+
                 else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
                 }
@@ -97,6 +107,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             case R.id.buttonSignIn:
                 userSign();
+                break;
+
+            case R.id.adminLogin:
+                startActivity(new Intent(this, SignUpActivity.class));
                 break;
         }
 
