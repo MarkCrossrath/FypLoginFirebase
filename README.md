@@ -1,2 +1,2 @@
 # FypLoginFirebase
-The login and reg for fyp with Firebase 
+Ticket pulse is an android application for my final year project for selling and reselling tickets
