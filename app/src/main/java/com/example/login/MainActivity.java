@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.CheckBox;
@@ -16,6 +17,11 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -41,6 +47,42 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         findViewById(R.id.buttonSignIn).setOnClickListener(this);
         findViewById(R.id.adminLogin).setOnClickListener(this);
 
+
+    }
+
+    public void selectUser(){
+
+        String uid = FirebaseAuth.getInstance().getCurrentUser().getUid();
+        DatabaseReference rootRef = FirebaseDatabase.getInstance().getReference();
+        DatabaseReference uidRef = rootRef.child("Users").child(uid);
+        ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+
+
+                    if (dataSnapshot.child("role").getValue(Long.class) == 1) {
+                        startActivity(new Intent(MainActivity.this , AdminMenuActivity.class));
+                    }
+                    else if (dataSnapshot.child("role").getValue(Long.class) == 2) {
+                        startActivity(new Intent(MainActivity.this , MenuActivity.class));
+                    }
+                    else {
+                        startActivity(new Intent(MainActivity.this, SignUpActivity.class));
+                    }
+
+
+
+            }
+
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+                throw databaseError.toException();
+
+
+            }
+        };
+        uidRef.addListenerForSingleValueEvent(valueEventListener);
 
     }
 
@@ -76,23 +118,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 
+
         progressBar.setVisibility(View.VISIBLE);
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 progressBar.setVisibility(View.GONE);
-                if(task.isSuccessful()){
+                if(task.isSuccessful()) {
+
+                    selectUser();
 
 
-                    Intent intent = new Intent(MainActivity.this, MenuActivity.class);
-                    intent.addFlags(intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(intent);
                 }
 
 
                 else{
                     Toast.makeText(getApplicationContext(),task.getException().getMessage(),Toast.LENGTH_LONG).show();
                 }
+
+
+
+
+
             }
         });
 
@@ -110,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
 
             case R.id.adminLogin:
-                startActivity(new Intent(this, SignUpActivity.class));
+                startActivity(new Intent(this, AdminSignInActivity.class));
                 break;
         }
 

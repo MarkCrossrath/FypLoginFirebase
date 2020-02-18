@@ -19,6 +19,9 @@
             </intent-filter>
         </activity>
         <activity android:name=".SignUpActivity" />
+        <activity android:name=".AdminSignInActivity" />
+        <activity android:name=".AdminMenuActivity" />
+
     </application>
 
 </manifest>
