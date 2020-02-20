@@ -26,7 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
-public class AdminEventActivity extends AppCompatActivity {
+public class AdminEventActivity extends AppCompatActivity implements View.OnClickListener{
 
     DatabaseReference reference;
     RecyclerView recyclerView;
@@ -47,6 +47,8 @@ public class AdminEventActivity extends AppCompatActivity {
         // recyclerView.setAdapter(adapter);
         createButton = findViewById(R.id.create_event);
         deleteButton = findViewById(R.id.delete_event);
+
+        findViewById(R.id.create_event).setOnClickListener(this);
 
         recyclerView = findViewById(R.id.recyclerView);
         LinearLayoutManager manager = new LinearLayoutManager(this);
@@ -78,7 +80,7 @@ public class AdminEventActivity extends AppCompatActivity {
     }
 
 
-
+    @Override
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.create_event:

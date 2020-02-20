@@ -34,14 +34,7 @@ public class AdminMenuActivity extends AppCompatActivity implements View.OnClick
             case R.id.events_button:
                 startActivity(new Intent(this, AdminEventActivity.class));
 
-
                 break;
-            //case R.id.the_pulse_button:
-            //  startActivity(new Intent(this, PulseActivity.class));
-            //    break;
-            //  case R.id.resell_button:
-            //   startActivity(new Intent(this, ResaleActivity.class));
-            //     break;
 
         }
 

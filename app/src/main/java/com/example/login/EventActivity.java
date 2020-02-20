@@ -53,7 +53,7 @@ public class EventActivity extends AppCompatActivity {
         reference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList< Event>();
+                list = new ArrayList<Event>();
                 for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
                 {
                     Event p = dataSnapshot1.getValue(Event.class);

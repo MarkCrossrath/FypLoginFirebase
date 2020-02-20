@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">login</string>
+    <string name="app_name">Ticket Pulse</string>
     <string name="title_activity_event_web_view">EventWebView</string>
 </resources>
