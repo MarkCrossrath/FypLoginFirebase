@@ -7,7 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-public class AdminMenuActivity extends AppCompatActivity implements View.OnClickListener {
+public class AdminMenuActivity extends AppCompatActivity  {
 
     Button EventBtn;
     Button PulseBtn;
@@ -18,25 +18,25 @@ public class AdminMenuActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_menu);
 
+
         EventBtn = findViewById(R.id.events_button);
         PulseBtn = findViewById(R.id.the_pulse_button);
         ResaleBtn = findViewById(R.id.resell_button);
 
-        findViewById(R.id.events_button).setOnClickListener(this);
+
+
+        EventBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminMenuActivity.this, AdminEventActivity.class);
+
+                startActivity(intent);
+            }
+        });
 
     }
 
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.events_button:
-                startActivity(new Intent(this, AdminEventActivity.class));
 
-                break;
-
-        }
-
-    }
 }
