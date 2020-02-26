@@ -1,71 +1,66 @@
 package com.example.login;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+
+import android.os.Bundle;
+
+import android.view.View;
+import android.widget.ProgressBar;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.graphics.ColorSpace;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Toast;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class EventActivity extends AppCompatActivity {
+    private RecyclerView mRecyclerView;
+    private MyAdapter mAdapter;
 
-    DatabaseReference reference;
-    RecyclerView recyclerView;
-    ArrayList<Event> list;
-    MyAdapter adapter;
+
+    private DatabaseReference mDatabaseRef;
+    private List<Event> mEvent;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_event);
 
-       // recyclerView =  findViewById(R.id.recyclerView);
-        //recyclerView.setLayoutManager( new LinearLayoutManager(this));
-        //recyclerView.setHasFixedSize(true);
-       // recyclerView.setAdapter(adapter);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setHasFixedSize(true);
-
-        recyclerView.setAdapter(adapter);
+        mRecyclerView = findViewById(R.id.recyclerView);
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
 
-        reference = FirebaseDatabase.getInstance().getReference().child("EventData");
-        reference.addValueEventListener(new ValueEventListener() {
+        mEvent = new ArrayList<>();
+
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("EventData");
+
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList<Event>();
-                for(DataSnapshot dataSnapshot1: dataSnapshot.getChildren())
-                {
-                    Event p = dataSnapshot1.getValue(Event.class);
-                    list.add(p);
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    mEvent.add(event);
                 }
-                adapter = new MyAdapter(EventActivity.this,list);
-                recyclerView.setAdapter(adapter);
+
+                mAdapter = new MyAdapter(EventActivity.this, mEvent);
+
+                mRecyclerView.setAdapter(mAdapter);
+
             }
 
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(EventActivity.this, "Opsss.... Something is wrong", Toast.LENGTH_SHORT).show();
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(EventActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
             }
         });
     }
