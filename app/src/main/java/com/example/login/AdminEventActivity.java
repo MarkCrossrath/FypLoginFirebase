@@ -1,101 +1,84 @@
 package com.example.login;
 
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBar;
+import android.app.Activity;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Intent;
-import android.graphics.ColorSpace;
-import android.os.Bundle;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
-
-import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
-public class AdminEventActivity extends AppCompatActivity implements View.OnClickListener{
-
-    DatabaseReference reference;
-    RecyclerView recyclerView;
-    ArrayList<Event> list;
-    MyAdapter adapter;
+public class AdminEventActivity extends AppCompatActivity  {
+    private RecyclerView mRecyclerView;
+    private MyAdapter mAdapter;
     Button createButton;
     Button deleteButton;
 
+
+
+    private DatabaseReference mDatabaseRef;
+    private List<Event> mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.admin_event);
 
-        // recyclerView =  findViewById(R.id.recyclerView);
-        //recyclerView.setLayoutManager( new LinearLayoutManager(this));
-        //recyclerView.setHasFixedSize(true);
-        // recyclerView.setAdapter(adapter);
         createButton = findViewById(R.id.create_event);
         deleteButton = findViewById(R.id.delete_event);
 
-        findViewById(R.id.create_event).setOnClickListener(this);
-
-        recyclerView = findViewById(R.id.recyclerView);
-        LinearLayoutManager manager = new LinearLayoutManager(this);
-        manager.setOrientation(LinearLayoutManager.VERTICAL);
-        recyclerView.setLayoutManager(manager);
-        recyclerView.setHasFixedSize(true);
-
-        recyclerView.setAdapter(adapter);
-
-
-        reference = FirebaseDatabase.getInstance().getReference().child("EventData");
-        reference.addValueEventListener(new ValueEventListener() {
+        createButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                list = new ArrayList<Event>();
-                for (DataSnapshot dataSnapshot1 : dataSnapshot.getChildren()) {
-                    Event p = dataSnapshot1.getValue(Event.class);
-                    list.add(p);
-                }
-                adapter = new MyAdapter(AdminEventActivity.this , list);
-                recyclerView.setAdapter(adapter);
-            }
+            public void onClick(View v) {
+                Intent intent = new Intent(AdminEventActivity.this, CreateEventActivity.class);
 
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-                Toast.makeText(AdminEventActivity.this , "Opsss.... Something is wrong" , Toast.LENGTH_SHORT).show();
+                startActivity(intent);
             }
         });
-    }
+
+        mRecyclerView = findViewById(R.id.recyclerView);
 
 
-    @Override
-    public void onClick(View v) {
-        switch (v.getId()) {
-            case R.id.create_event:
-              startActivity(new Intent(this,CreateEventActivity.class));
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-                break;
-            //case R.id.the_pulse_button:
-            //  startActivity(new Intent(this, PulseActivity.class));
-            //    break;
-            //  case R.id.resell_button:
-            //   startActivity(new Intent(this, ResaleActivity.class));
-            //     break;
+        mEvent = new ArrayList<>();
 
-        }
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference("EventData");
 
+        mDatabaseRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    Event event = postSnapshot.getValue(Event.class);
+                    mEvent.add(event);
+                }
+
+                mAdapter = new MyAdapter(AdminEventActivity.this, mEvent);
+
+                mRecyclerView.setAdapter(mAdapter);
+
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Toast.makeText(AdminEventActivity.this, databaseError.getMessage(), Toast.LENGTH_SHORT).show();
+
+            }
+        });
     }
 
 
