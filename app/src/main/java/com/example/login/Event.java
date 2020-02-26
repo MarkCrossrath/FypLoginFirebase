@@ -8,18 +8,18 @@ public class Event {
     private String location;
     private String date;
 
-    public Event(){
+    public Event(String s , String toString){
         //do not delete this
+
+    }
+
+    public Event(){
 
     }
 
     public Event(String title , String image , String description , String location , String date) {
 
-      // if (title.trim().equals("")){
-        //   title.setError("Event Title is required ");
-      //     title.requestFocus();
-        //   return;
-     //  }
+
 
         this.title = title;
         this.image = image;
