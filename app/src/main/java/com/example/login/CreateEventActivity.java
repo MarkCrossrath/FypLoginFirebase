@@ -17,9 +17,11 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
+import com.google.android.gms.tasks.Task;
+
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,6 +46,7 @@ public class CreateEventActivity extends AppCompatActivity {
     Button uploadButton;
     Button addEvent;
     ProgressBar progressBar;
+    Event event;
 
     private Uri imageUri;
 
@@ -65,11 +68,12 @@ public class CreateEventActivity extends AppCompatActivity {
         eventLocation = findViewById(R.id.event_location);
         eventDate = findViewById(R.id.event_date);
         uploadButton = findViewById(R.id.uploadImageButton);
-        addEvent = findViewById(R.id.create_event);
+        addEvent = findViewById(R.id.buttonAddEvent);
         progressBar = findViewById(R.id.progressbar);
+        event = new Event();
 
         mStorageRef = FirebaseStorage.getInstance().getReference("EventData" );
-        mDatabaseRef = FirebaseDatabase.getInstance().getReference("EventData");
+        mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("EventData");
 
 
 
@@ -86,7 +90,7 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 uploadFile();
 
-            }
+           }
         });
 
 
@@ -116,42 +120,9 @@ public class CreateEventActivity extends AppCompatActivity {
         }
     }
 
-    private void createEvent(){
-
-        String event_title = eventTitle.getText().toString().trim();
-        String event_desc = eventDescription.getText().toString().trim();
-        String event_loc = eventLocation.getText().toString().trim();
-        String event_date = eventDate.getText().toString().trim();
-
-        if(event_title.isEmpty()){
-            eventTitle.setError("Event Title is required ");
-            eventTitle.requestFocus();
-            return;
-        }
-
-        if(event_desc.isEmpty()){
-            eventDescription.setError("Event Description is required ");
-            eventDescription.requestFocus();
-            return;
-        }
-
-        if(event_loc.isEmpty()){
-            eventLocation.setError("Event Location is required ");
-            eventLocation.requestFocus();
-            return;
-        }
-
-        if(event_date.isEmpty()){
-            eventDate.setError("Event Date is required ");
-            eventDate.requestFocus();
-            return;
-        }
 
 
 
-
-
-    }
     private String getFileExtension(Uri uri){
         ContentResolver cR = getContentResolver();
         MimeTypeMap mime =  MimeTypeMap.getSingleton();
@@ -159,17 +130,33 @@ public class CreateEventActivity extends AppCompatActivity {
 
     }
     private void uploadFile(){
-        if(eventImage != null){
+        final String event_title = eventTitle.getText().toString().trim();
+        final String event_desc = eventDescription.getText().toString().trim();
+        final String event_date = eventDate.getText().toString().trim();
+        final String event_loc = eventLocation.getText().toString().trim();
+
+
+
+
+
+        if(imageUri != null){
             StorageReference fileReference = mStorageRef.child(System.currentTimeMillis() +
                     "." + getFileExtension(imageUri));
             fileReference.putFile(imageUri)
                     .addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
                         @Override
                         public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+
                             progressBar.setVisibility(View.GONE);
                             Toast.makeText(CreateEventActivity.this , "Event added", Toast.LENGTH_LONG).show();
-                         //  Event event = new Event(eventTitle.getText().toString().trim(),
-                           //        taskSnapshot.getDownloadUrl().toString());
+
+                            event.setImage(taskSnapshot.getDownloadUrl().toString());
+                            event.setTitle(eventTitle.getText().toString().trim());
+                            event.setDescription(eventDescription.getText().toString().trim());
+                            event.setDate(eventDate.getText().toString().trim());
+                            event.setLocation(eventLocation.getText().toString().trim());
+
+                            mDatabaseRef.push().setValue(event);
 
                         }
                     })
