@@ -29,8 +29,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp"
             android:scaleType="centerCrop"
-            android:adjustViewBounds="true"
-            android:background="@drawable/loading"/>
+            android:adjustViewBounds="true" />
         <TextView
             android:id="@+id/rDescriptionTv"
             android:text="This is the description"
