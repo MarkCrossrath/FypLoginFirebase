@@ -43,15 +43,8 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
             @Override
             public void onClick(View v) {
 
-
-
             }
         });
-
-
-
-
-
     }
 
     @Override
@@ -76,12 +69,6 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
             textViewDate = itemView.findViewById(R.id.rDateTv);
             textViewLocation = itemView.findViewById(R.id.rLocationTv);
 
-
-
-
         }
-
     }
-
-
 }
