@@ -5,6 +5,7 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.webkit.MimeTypeMap;
 import android.widget.Button;
@@ -90,15 +91,26 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 uploadFile();
 
-           }
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        Intent i=new Intent(CreateEventActivity.this,AdminEventActivity.class);
+                        startActivity(i);
+                    }
+                }, 3000);
+
+
+
+
+            }
         });
 
 
 
-
-
-
     }
+
+
 
     private void openFileChooser(){
 
@@ -119,7 +131,6 @@ public class CreateEventActivity extends AppCompatActivity {
             Picasso.get().load(imageUri).into(eventImage);
         }
     }
-
 
 
 
