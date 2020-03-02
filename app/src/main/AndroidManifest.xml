@@ -30,8 +30,7 @@
         <activity android:name=".AdminEventActivity" />
         <activity android:name=".CreateEventActivity" />
         <activity android:name=".TicketSelectionActivity" />
-
-
+        <activity android:name=".TicketOneActivity" />
 
 
     </application>
