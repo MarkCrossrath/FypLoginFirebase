@@ -55,6 +55,7 @@ public class AdminEventActivity extends AppCompatActivity  {
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+
         mEvent = new ArrayList<>();
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("EventData");
@@ -71,6 +72,8 @@ public class AdminEventActivity extends AppCompatActivity  {
 
                 mRecyclerView.setAdapter(mAdapter);
 
+
+
             }
 
             @Override
@@ -79,6 +82,9 @@ public class AdminEventActivity extends AppCompatActivity  {
 
             }
         });
+
+
+
     }
 
 
