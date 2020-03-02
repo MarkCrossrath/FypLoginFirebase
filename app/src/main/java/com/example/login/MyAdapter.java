@@ -2,16 +2,20 @@ package com.example.login;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -19,9 +23,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
     private Context mContext;
     private List<Event> mEvents;
 
-    public MyAdapter(Context context, List<Event> event) {
+
+
+
+    public MyAdapter(Context context, List<Event> event ) {
         mContext = context;
         mEvents = event;
+
+
     }
 
     @Override
@@ -39,9 +48,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
         holder.textViewLocation.setText(uploadCurrent.getLocation());
         Picasso.get().load(uploadCurrent.getImage()).into(holder.imageView);
 
-        holder.itemView.setOnClickListener(new View.OnClickListener() {
+
+        holder.parentlayout.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
+
+
+                Intent intent = new Intent(mContext,TicketSelectionActivity.class);
+
+               mContext.startActivity(intent);
+
 
             }
         });
@@ -58,9 +74,11 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
         public TextView textViewDescription;
         public TextView textViewLocation;
         public TextView textViewDate;
+        public CardView parentlayout;
 
 
-        public ImageViewHolder(View itemView) {
+
+        public ImageViewHolder(View itemView ) {
             super(itemView);
 
             textViewTitle = itemView.findViewById(R.id.rTitleTv);
@@ -68,7 +86,16 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
             textViewDescription = itemView.findViewById(R.id.rDescriptionTv);
             textViewDate = itemView.findViewById(R.id.rDateTv);
             textViewLocation = itemView.findViewById(R.id.rLocationTv);
+            parentlayout = itemView.findViewById(R.id.parent_layout);
+
+
+
+
 
         }
+
+
     }
+
+
 }
