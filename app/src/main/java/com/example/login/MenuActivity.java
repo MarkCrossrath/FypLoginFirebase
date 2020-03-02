@@ -41,10 +41,10 @@ public class MenuActivity extends AppCompatActivity implements View.OnClickListe
 
                 break;
             //case R.id.the_pulse_button:
-              //  startActivity(new Intent(this, PulseActiviy.class));
+              //  startActivity(new Intent(this, PulseActivity.class));
             //    break;
           //  case R.id.resell_button:
-             //   startActivity(new Intent(this, ResaleActiviy.class));
+             //   startActivity(new Intent(this, ResaleActivity.class));
            //     break;
 
         }
