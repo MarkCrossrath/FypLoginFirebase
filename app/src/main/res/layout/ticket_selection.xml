@@ -2,12 +2,25 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
     android:layout_height="match_parent">
+
+
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
         android:layout_height="665dp"
         android:orientation="vertical"
         android:padding="15dp">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/selection_title"
+            android:text="Title"
+            android:textColor="#000"
+            android:textSize="22sp"
+            android:textStyle="bold"/>
+
+
 
         <ImageView
             android:id="@+id/event_Image"
