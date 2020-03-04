@@ -4,6 +4,7 @@ package com.example.login;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -26,6 +27,7 @@ public class AdminEventActivity extends AppCompatActivity  {
     private MyAdapter mAdapter;
     Button createButton;
     Button deleteButton;
+    private static final String TAG = "AdminEvent";
 
 
 
@@ -40,6 +42,19 @@ public class AdminEventActivity extends AppCompatActivity  {
         createButton = findViewById(R.id.create_event);
         deleteButton = findViewById(R.id.delete_event);
 
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+                String removeQuery = ref.child("EventData").push().getKey();
+                System.out.println(removeQuery);
+                Log.d(TAG,"Remove Query was called !!!!!!!!!!!!");
+
+
+
+            }
+        });
+
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -48,6 +63,7 @@ public class AdminEventActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
 
         mRecyclerView = findViewById(R.id.recyclerView);
 
@@ -60,6 +76,7 @@ public class AdminEventActivity extends AppCompatActivity  {
 
         mDatabaseRef = FirebaseDatabase.getInstance().getReference("EventData");
 
+
         mDatabaseRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -71,7 +88,6 @@ public class AdminEventActivity extends AppCompatActivity  {
                 mAdapter = new MyAdapter(AdminEventActivity.this, mEvent);
 
                 mRecyclerView.setAdapter(mAdapter);
-
 
 
             }
