@@ -26,6 +26,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
     EditText editTextPassword;
     EditText editTextSportPreference;
     private FirebaseAuth mAuth;
+    String ticket;
 
 
 
@@ -65,6 +66,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
         String password = editTextPassword.getText().toString().trim();
         final String sportPreference = editTextSportPreference.getText().toString().trim();
 
+
         if (email.isEmpty()) {
             editTextEmail.setError("Email is Required ");
             editTextEmail.requestFocus();
@@ -103,7 +105,7 @@ public class SignUpActivity extends AppCompatActivity implements View.OnClickLis
                         if(task.isSuccessful()){
                             //stored fields
                             User user = new User(
-                                    email,sportPreference
+                                    email,sportPreference,ticket
                             );
                             FirebaseDatabase.getInstance().getReference("Users")
                             .child(FirebaseAuth.getInstance().getCurrentUser().getUid())
