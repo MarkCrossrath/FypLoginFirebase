@@ -1,6 +1,7 @@
 package com.example.login;
 
-import android.app.ProgressDialog;
+
+import android.app.Activity;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.net.Uri;
@@ -18,10 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
+
 
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -31,7 +31,6 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 
 public class CreateEventActivity extends AppCompatActivity {
 
@@ -76,6 +75,12 @@ public class CreateEventActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("EventData" );
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("EventData");
 
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+        String removeQuery = ref.child("EventData").push().getKey();
+        Intent intent = new Intent(getBaseContext(), Activity.class);
+        intent.putExtra("key", removeQuery);
+        startActivity(intent);
+
 
 
         uploadButton.setOnClickListener(new View.OnClickListener() {
@@ -91,16 +96,17 @@ public class CreateEventActivity extends AppCompatActivity {
             public void onClick(View v) {
                 uploadFile();
 
+
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
 
+
                         Intent i=new Intent(CreateEventActivity.this,AdminEventActivity.class);
                         startActivity(i);
+
                     }
                 }, 3000);
-
-
 
 
             }
@@ -167,7 +173,8 @@ public class CreateEventActivity extends AppCompatActivity {
                             event.setDate(eventDate.getText().toString().trim());
                             event.setLocation(eventLocation.getText().toString().trim());
 
-                            mDatabaseRef.push().setValue(event);
+                            mDatabaseRef.push().setValue(event)
+                            ;
 
                         }
                     })
