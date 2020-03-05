@@ -75,11 +75,11 @@ public class CreateEventActivity extends AppCompatActivity {
         mStorageRef = FirebaseStorage.getInstance().getReference("EventData" );
         mDatabaseRef = FirebaseDatabase.getInstance().getReference().child("EventData");
 
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
-        String removeQuery = ref.child("EventData").push().getKey();
-        Intent intent = new Intent(getBaseContext(), Activity.class);
-        intent.putExtra("key", removeQuery);
-        startActivity(intent);
+      //  DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
+      //  String removeQuery = ref.child("EventData").push().getKey();
+       // Intent intent = new Intent(getBaseContext(), Activity.class);
+      //  intent.putExtra("key", removeQuery);
+       // startActivity(intent);
 
 
 

@@ -1,6 +1,6 @@
 package com.example.login;
 
-import android.app.Activity;
+
 import android.app.AlertDialog;
 import android.content.Context;
 
@@ -17,20 +17,17 @@ import android.widget.Toast;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.Query;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.storage.StorageReference;
+
 import com.squareup.picasso.Picasso;
 
-import java.security.Key;
-import java.util.ArrayList;
+
 import java.util.List;
 
-import static com.firebase.ui.auth.AuthUI.TAG;
+
 
 
 public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
@@ -134,13 +131,28 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ImageViewHolder> {
             @Override
             public void onClick(DialogInterface dialog , int which) {
 
+
+
+
+                DatabaseReference ref = FirebaseDatabase.getInstance().getReference("");
+                String removeQuery = ref.child("EventData").push().getKey();
+                System.out.println(removeQuery);
+
+                Log.d(TAG,"Remove Query was called !!!!!!!!!!!!");
+                removeQuery = removeQuery.replace(removeQuery,"");
+
+                System.out.println(removeQuery);
+
+                Log.d(TAG,"Remove Query was called !!!!!!!!!!!!");
+
+
+
                // DatabaseReference ref = FirebaseDatabase.getInstance().getReference();
               //  String key = getIntent().getStringExtra("key");
                // ref.child("EventData").child(key).removeValue();
 
 
-                Toast.makeText(mContext, "deleted", Toast.LENGTH_LONG).show();
-                Log.d(TAG,"Remove Query was called !!!!!!!!!!!!");
+
 
 
 
